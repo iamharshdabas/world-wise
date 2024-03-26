@@ -1,4 +1,4 @@
-import { LeafletMouseEvent } from 'leaflet'
+import L, { LeafletMouseEvent } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import {
@@ -12,6 +12,12 @@ import {
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useFetch from '../context/useFetch'
 import { MapPositionType } from '../types/mapPosition'
+
+const customIcon = new L.Icon({
+  iconUrl:
+    'https://cdn2.iconfinder.com/data/icons/toolbar-signs-2/512/map_marker_base-512.png',
+  iconSize: [32, 32],
+})
 
 const ChangeView = ({ position }: { position: MapPositionType }) => {
   const map = useMap()
@@ -52,7 +58,11 @@ const LeafletMap = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {data?.map((child) => (
-          <Marker position={[child.latitude, child.longitude]} key={child.id}>
+          <Marker
+            position={[child.latitude, child.longitude]}
+            key={child.id}
+            icon={customIcon}
+          >
             <Popup>{child.name}</Popup>
           </Marker>
         ))}
